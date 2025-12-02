@@ -1,20 +1,16 @@
-// Select elements
 const taskInput = document.getElementById("taskInput");
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
+const emptyState = document.getElementById("emptyState");
 
-// Load tasks from localStorage on start
 document.addEventListener("DOMContentLoaded", loadTasks);
 
-// Add task event
 addBtn.addEventListener("click", addTask);
 
-// Add task when pressing Enter
 taskInput.addEventListener("keypress", function(e) {
     if (e.key === "Enter") addTask();
 });
 
-// Add task function
 function addTask() {
     const taskText = taskInput.value.trim();
     if (taskText === "") return;
@@ -27,34 +23,42 @@ function addTask() {
 
     saveTask(task);
     renderTask(task);
+    updateEmptyState();
 
     taskInput.value = "";
+    taskInput.focus();
 }
 
-// Save to localStorage
 function saveTask(task) {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// Render a single task to the UI
 function renderTask(task) {
     const li = document.createElement("li");
     li.className = "task-item";
     if (task.completed) li.classList.add("completed");
 
     li.innerHTML = `
-        <span class="task-text">${task.text}</span>
-        <div>
-            <button class="delete-btn">X</button>
+        <div class="task-content">
+            <div class="checkbox">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <span class="task-text">${escapeHtml(task.text)}</span>
         </div>
+        <button class="delete-btn" aria-label="Delete task">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
     `;
 
-    // Toggle completed
-    li.addEventListener("click", () => toggleCompleted(task.id, li));
+    li.querySelector(".task-content").addEventListener("click", () => toggleCompleted(task.id, li));
 
-    // Delete task
     li.querySelector(".delete-btn").addEventListener("click", (e) => {
         e.stopPropagation(); 
         deleteTask(task.id, li);
@@ -63,13 +67,18 @@ function renderTask(task) {
     taskList.appendChild(li);
 }
 
-// Load all tasks from localStorage
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 function loadTasks() {
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.forEach(task => renderTask(task));
+    updateEmptyState();
 }
 
-// Mark as completed
 function toggleCompleted(id, element) {
     let tasks = JSON.parse(localStorage.getItem("tasks"));
     tasks = tasks.map(task => {
@@ -80,10 +89,24 @@ function toggleCompleted(id, element) {
     element.classList.toggle("completed");
 }
 
-// Delete a task
 function deleteTask(id, element) {
-    let tasks = JSON.parse(localStorage.getItem("tasks"));
-    tasks = tasks.filter(task => task.id !== id);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    element.remove();
+    element.style.opacity = '0';
+    element.style.transform = 'translateX(20px)';
+    
+    setTimeout(() => {
+        let tasks = JSON.parse(localStorage.getItem("tasks"));
+        tasks = tasks.filter(task => task.id !== id);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        element.remove();
+        updateEmptyState();
+    }, 200);
+}
+
+function updateEmptyState() {
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    if (tasks.length === 0) {
+        emptyState.classList.remove("hidden");
+    } else {
+        emptyState.classList.add("hidden");
+    }
 }
