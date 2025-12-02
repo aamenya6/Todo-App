@@ -5,11 +5,42 @@ const emptyState = document.getElementById("emptyState");
 const footer = document.getElementById("footer");
 const taskCount = document.getElementById("taskCount");
 const clearCompletedBtn = document.getElementById("clearCompletedBtn");
+const themeToggle = document.getElementById("themeToggle");
 
-document.addEventListener("DOMContentLoaded", loadTasks);
+const themes = ['pastel', 'vibrant', 'neon'];
+let currentThemeIndex = 0;
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadTasks();
+    loadTheme();
+});
 
 addBtn.addEventListener("click", addTask);
 clearCompletedBtn.addEventListener("click", clearCompleted);
+themeToggle.addEventListener("click", toggleTheme);
+
+function toggleTheme() {
+    document.body.classList.remove(themes[currentThemeIndex]);
+    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+    if (themes[currentThemeIndex] !== 'pastel') {
+        document.body.classList.add(themes[currentThemeIndex]);
+    }
+    localStorage.setItem("theme", themes[currentThemeIndex]);
+    
+    themeToggle.style.transform = 'rotate(360deg) scale(1.1)';
+    setTimeout(() => {
+        themeToggle.style.transform = '';
+    }, 300);
+}
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem("theme") || 'pastel';
+    currentThemeIndex = themes.indexOf(savedTheme);
+    if (currentThemeIndex === -1) currentThemeIndex = 0;
+    if (themes[currentThemeIndex] !== 'pastel') {
+        document.body.classList.add(themes[currentThemeIndex]);
+    }
+}
 
 taskInput.addEventListener("keypress", function(e) {
     if (e.key === "Enter") addTask();

@@ -27,6 +27,12 @@ header {
     margin-bottom: 32px;
 }
 
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 h1 {
     font-size: 28px;
     font-weight: 600;
@@ -40,6 +46,38 @@ h1 {
     margin-top: 4px;
     font-weight: 400;
 }
+
+.theme-toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 2px solid #eef0f5;
+    background: #fafbfc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: #6b7280;
+}
+
+.theme-toggle:hover {
+    border-color: #6366f1;
+    color: #6366f1;
+    transform: rotate(15deg);
+}
+
+.theme-toggle .icon-pastel { display: block; }
+.theme-toggle .icon-vibrant { display: none; }
+.theme-toggle .icon-neon { display: none; }
+
+body.vibrant .theme-toggle .icon-pastel { display: none; }
+body.vibrant .theme-toggle .icon-vibrant { display: block; }
+body.vibrant .theme-toggle .icon-neon { display: none; }
+
+body.neon .theme-toggle .icon-pastel { display: none; }
+body.neon .theme-toggle .icon-vibrant { display: none; }
+body.neon .theme-toggle .icon-neon { display: block; }
 
 .input-section {
     display: flex;
@@ -135,6 +173,56 @@ h1 {
 .task-item:nth-child(6n+4) { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); transform: rotate(1.2deg); }
 .task-item:nth-child(6n+5) { background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); transform: rotate(-0.8deg); }
 .task-item:nth-child(6n+6) { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); transform: rotate(0.5deg); }
+
+body.vibrant .task-item:nth-child(6n+1) { background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); }
+body.vibrant .task-item:nth-child(6n+2) { background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%); }
+body.vibrant .task-item:nth-child(6n+3) { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+body.vibrant .task-item:nth-child(6n+4) { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+body.vibrant .task-item:nth-child(6n+5) { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+body.vibrant .task-item:nth-child(6n+6) { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+body.vibrant .task-item { color: #fff; }
+body.vibrant .task-item .task-text { color: #fff; }
+body.vibrant .task-item .checkbox { border-color: rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.2); }
+body.vibrant .task-item .delete-btn { color: rgba(255, 255, 255, 0.7); background: rgba(255, 255, 255, 0.2); }
+body.vibrant .task-item .delete-btn:hover { background: rgba(255, 255, 255, 0.3); color: #fff; }
+body.vibrant .task-item.completed .task-text { color: rgba(255, 255, 255, 0.6); }
+body.vibrant .task-item::before { border-color: rgba(255, 255, 255, 0.2) transparent transparent rgba(255, 255, 255, 0.2); }
+
+body.neon { background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%); }
+body.neon .todo-container { background: #1e1e3f; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); }
+body.neon h1 { color: #fff; }
+body.neon .subtitle { color: #8888aa; }
+body.neon #taskInput { background: #2a2a5a; border-color: #3a3a7a; color: #fff; }
+body.neon #taskInput::placeholder { color: #6666aa; }
+body.neon #taskInput:focus { border-color: #00ffff; box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.1); }
+body.neon .theme-toggle { background: #2a2a5a; border-color: #3a3a7a; color: #00ffff; }
+body.neon .theme-toggle:hover { border-color: #ff00ff; color: #ff00ff; }
+body.neon .footer { border-color: #3a3a7a; }
+body.neon .task-count { color: #8888aa; }
+body.neon #clearCompletedBtn { color: #8888aa; }
+body.neon #clearCompletedBtn:hover { background: rgba(255, 0, 100, 0.2); color: #ff0066; }
+body.neon .empty-state { color: #6666aa; }
+body.neon .empty-state svg { stroke: #4a4a8a; }
+body.neon .empty-state p { color: #8888aa; }
+
+body.neon .task-item:nth-child(6n+1) { background: linear-gradient(135deg, #ff0080 0%, #ff00ff 100%); box-shadow: 0 4px 20px rgba(255, 0, 128, 0.4); }
+body.neon .task-item:nth-child(6n+2) { background: linear-gradient(135deg, #00ffff 0%, #00ff88 100%); box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4); }
+body.neon .task-item:nth-child(6n+3) { background: linear-gradient(135deg, #ff6600 0%, #ffff00 100%); box-shadow: 0 4px 20px rgba(255, 102, 0, 0.4); }
+body.neon .task-item:nth-child(6n+4) { background: linear-gradient(135deg, #8800ff 0%, #00ffff 100%); box-shadow: 0 4px 20px rgba(136, 0, 255, 0.4); }
+body.neon .task-item:nth-child(6n+5) { background: linear-gradient(135deg, #00ff00 0%, #88ff00 100%); box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); }
+body.neon .task-item:nth-child(6n+6) { background: linear-gradient(135deg, #ff0066 0%, #ff6600 100%); box-shadow: 0 4px 20px rgba(255, 0, 102, 0.4); }
+
+body.neon .task-item { color: #fff; }
+body.neon .task-item .task-text { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+body.neon .task-item .checkbox { border-color: rgba(255, 255, 255, 0.5); background: rgba(0, 0, 0, 0.3); }
+body.neon .task-item.completed .checkbox { background: #fff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+body.neon .task-item.completed .checkbox svg { stroke: #1e1e3f; }
+body.neon .task-item .delete-btn { color: rgba(255, 255, 255, 0.7); background: rgba(0, 0, 0, 0.3); }
+body.neon .task-item .delete-btn:hover { background: rgba(255, 0, 0, 0.4); color: #fff; }
+body.neon .task-item.completed .task-text { color: rgba(255, 255, 255, 0.5); }
+body.neon .task-item::before { display: none; }
+body.neon .task-item:hover { box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2); }
 
 .task-item:hover {
     transform: rotate(0deg) translateY(-4px) scale(1.02);
