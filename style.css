@@ -96,33 +96,63 @@ h1 {
 
 #taskList {
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 8px 4px;
 }
 
 .task-item {
-    background: #fafbfc;
-    padding: 16px 18px;
-    border-radius: 12px;
-    margin-bottom: 10px;
+    padding: 20px 22px;
+    border-radius: 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border: 2px solid transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    position: relative;
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 10px 20px rgba(0, 0, 0, 0.04),
+        0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
+.task-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-style: solid;
+    border-width: 0 20px 20px 0;
+    border-color: rgba(0, 0, 0, 0.08) #ffffff #ffffff rgba(0, 0, 0, 0.08);
+    border-radius: 0 4px 0 0;
+}
+
+.task-item:nth-child(6n+1) { background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%); transform: rotate(-1deg); }
+.task-item:nth-child(6n+2) { background: linear-gradient(135deg, #ffe0ec 0%, #ffcdd2 100%); transform: rotate(0.8deg); }
+.task-item:nth-child(6n+3) { background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); transform: rotate(-0.5deg); }
+.task-item:nth-child(6n+4) { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); transform: rotate(1.2deg); }
+.task-item:nth-child(6n+5) { background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); transform: rotate(-0.8deg); }
+.task-item:nth-child(6n+6) { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); transform: rotate(0.5deg); }
+
 .task-item:hover {
-    background: #f0f2f5;
-    border-color: #eef0f5;
+    transform: rotate(0deg) translateY(-4px) scale(1.02);
+    box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.08),
+        0 20px 40px rgba(0, 0, 0, 0.06),
+        0 2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
 .task-item.completed {
-    opacity: 0.6;
+    opacity: 0.7;
+    filter: saturate(0.6);
 }
 
 .task-item.completed .task-text {
     text-decoration: line-through;
-    color: #8b8b9e;
+    color: #666;
 }
 
 .task-content {
@@ -134,20 +164,22 @@ h1 {
 }
 
 .checkbox {
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
-    border: 2px solid #d1d5db;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.6);
 }
 
 .task-item.completed .checkbox {
-    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-color: transparent;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
 }
 
 .checkbox svg {
@@ -168,13 +200,13 @@ h1 {
 }
 
 .delete-btn {
-    background: transparent;
-    color: #a0a3b1;
+    background: rgba(255, 255, 255, 0.5);
+    color: rgba(0, 0, 0, 0.4);
     border: none;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,8 +220,9 @@ h1 {
 }
 
 .delete-btn:hover {
-    background: #fee2e2;
-    color: #ef4444;
+    background: rgba(239, 68, 68, 0.15);
+    color: #dc2626;
+    transform: scale(1.1);
 }
 
 .empty-state {
@@ -260,17 +293,23 @@ h1 {
     visibility: hidden;
 }
 
-@keyframes slideIn {
-    from {
+@keyframes popIn {
+    0% {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: scale(0.8) rotate(0deg);
     }
-    to {
+    50% {
+        transform: scale(1.05) rotate(0deg);
+    }
+    100% {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
     }
 }
 
-.task-item {
-    animation: slideIn 0.3s ease;
-}
+.task-item:nth-child(6n+1) { animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.task-item:nth-child(6n+2) { animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.task-item:nth-child(6n+3) { animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.task-item:nth-child(6n+4) { animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.task-item:nth-child(6n+5) { animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.task-item:nth-child(6n+6) { animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
