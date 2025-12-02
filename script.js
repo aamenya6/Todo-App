@@ -2,10 +2,14 @@ const taskInput = document.getElementById("taskInput");
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 const emptyState = document.getElementById("emptyState");
+const footer = document.getElementById("footer");
+const taskCount = document.getElementById("taskCount");
+const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 
 document.addEventListener("DOMContentLoaded", loadTasks);
 
 addBtn.addEventListener("click", addTask);
+clearCompletedBtn.addEventListener("click", clearCompleted);
 
 taskInput.addEventListener("keypress", function(e) {
     if (e.key === "Enter") addTask();
@@ -87,6 +91,7 @@ function toggleCompleted(id, element) {
     });
     localStorage.setItem("tasks", JSON.stringify(tasks));
     element.classList.toggle("completed");
+    updateEmptyState();
 }
 
 function deleteTask(id, element) {
@@ -104,9 +109,41 @@ function deleteTask(id, element) {
 
 function updateEmptyState() {
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    const completedCount = tasks.filter(t => t.completed).length;
+    const remainingCount = tasks.length - completedCount;
+    
     if (tasks.length === 0) {
         emptyState.classList.remove("hidden");
+        footer.classList.add("hidden");
     } else {
         emptyState.classList.add("hidden");
+        footer.classList.remove("hidden");
+        
+        taskCount.textContent = `${remainingCount} task${remainingCount !== 1 ? 's' : ''} remaining`;
+        
+        if (completedCount > 0) {
+            clearCompletedBtn.classList.remove("hidden");
+        } else {
+            clearCompletedBtn.classList.add("hidden");
+        }
     }
+}
+
+function clearCompleted() {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    const completedIds = tasks.filter(t => t.completed).map(t => t.id);
+    
+    const completedItems = document.querySelectorAll(".task-item.completed");
+    completedItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(20px)';
+    });
+    
+    setTimeout(() => {
+        tasks = tasks.filter(t => !t.completed);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        
+        completedItems.forEach(item => item.remove());
+        updateEmptyState();
+    }, 200);
 }

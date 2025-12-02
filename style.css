@@ -221,6 +221,45 @@ h1 {
     display: none;
 }
 
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid #eef0f5;
+}
+
+.footer.hidden {
+    display: none;
+}
+
+.task-count {
+    font-size: 13px;
+    color: #8b8b9e;
+}
+
+#clearCompletedBtn {
+    background: transparent;
+    border: none;
+    color: #8b8b9e;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+#clearCompletedBtn:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+#clearCompletedBtn.hidden {
+    visibility: hidden;
+}
+
 @keyframes slideIn {
     from {
         opacity: 0;
