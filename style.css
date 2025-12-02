@@ -342,6 +342,51 @@ body.neon .task-item:hover { box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2); }
     display: none;
 }
 
+.filter-section {
+    display: none;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 6px;
+    background: #f3f4f6;
+    border-radius: 12px;
+}
+
+.filter-section.visible {
+    display: flex;
+}
+
+.filter-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    color: #4b5563;
+}
+
+.filter-btn.active {
+    background: #ffffff;
+    color: #6366f1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+body.vibrant .filter-section { background: #e5e7eb; }
+body.vibrant .filter-btn.active { background: #fff; color: #6366f1; }
+
+body.neon .filter-section { background: #2a2a5a; }
+body.neon .filter-btn { color: #8888aa; }
+body.neon .filter-btn:hover { color: #aaaacc; }
+body.neon .filter-btn.active { background: #3a3a7a; color: #00ffff; box-shadow: 0 0 10px rgba(0, 255, 255, 0.2); }
+
 .footer {
     display: flex;
     justify-content: space-between;

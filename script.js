@@ -6,9 +6,12 @@ const footer = document.getElementById("footer");
 const taskCount = document.getElementById("taskCount");
 const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 const themeToggle = document.getElementById("themeToggle");
+const filterSection = document.getElementById("filterSection");
+const filterBtns = document.querySelectorAll(".filter-btn");
 
 const themes = ['pastel', 'vibrant', 'neon'];
 let currentThemeIndex = 0;
+let currentFilter = 'all';
 
 document.addEventListener("DOMContentLoaded", () => {
     loadTasks();
@@ -18,6 +21,32 @@ document.addEventListener("DOMContentLoaded", () => {
 addBtn.addEventListener("click", addTask);
 clearCompletedBtn.addEventListener("click", clearCompleted);
 themeToggle.addEventListener("click", toggleTheme);
+
+filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFilter = btn.dataset.filter;
+        applyFilter();
+    });
+});
+
+function applyFilter() {
+    const taskItems = document.querySelectorAll(".task-item");
+    taskItems.forEach(item => {
+        const isCompleted = item.classList.contains("completed");
+        switch(currentFilter) {
+            case 'active':
+                item.style.display = isCompleted ? 'none' : 'flex';
+                break;
+            case 'completed':
+                item.style.display = isCompleted ? 'flex' : 'none';
+                break;
+            default:
+                item.style.display = 'flex';
+        }
+    });
+}
 
 function toggleTheme() {
     document.body.classList.remove(themes[currentThemeIndex]);
@@ -123,6 +152,7 @@ function toggleCompleted(id, element) {
     localStorage.setItem("tasks", JSON.stringify(tasks));
     element.classList.toggle("completed");
     updateEmptyState();
+    applyFilter();
 }
 
 function deleteTask(id, element) {
@@ -146,9 +176,11 @@ function updateEmptyState() {
     if (tasks.length === 0) {
         emptyState.classList.remove("hidden");
         footer.classList.add("hidden");
+        filterSection.classList.remove("visible");
     } else {
         emptyState.classList.add("hidden");
         footer.classList.remove("hidden");
+        filterSection.classList.add("visible");
         
         taskCount.textContent = `${remainingCount} task${remainingCount !== 1 ? 's' : ''} remaining`;
         
