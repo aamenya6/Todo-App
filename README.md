@@ -112,3 +112,7 @@ MIT License - Free to use and modify.
 
 **Made with ❤️ for productive task management**
 ```
+
+# Deployed App URL
+
+https://aamenya6.github.io/Todo-App/
